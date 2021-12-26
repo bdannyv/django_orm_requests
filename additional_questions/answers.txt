@@ -1,0 +1,41 @@
+1. Suppose we have several independent models which have some fields
+in common. What type of django model inheritance should be used to
+avoid typing those common fields definitions in each model?
+
+Answer: 4. Abstract base class
+
+
+2. Suppose we have model with a custom manager:
+class CustomManager(models.Manager):
+    def get_queryset(self):
+        return CustomQuerySet(self.model, using=self._db)
+
+class Item(models.Model):
+    name = models.CharField('Item', max_length=100) active =
+    models.BooleanField('Active', default=True) objects = CustomManager()
+
+Now we want the following code to work:
+Item.objects.filter(pk=1).delete() - should set “active” attribute to False on
+matched records. Item.objects.filter(pk=1).delete_real() - should delete
+matched records from db.
+
+Answer: 2.
+class CustomQuerySet(QuerySet):
+    def delete(self):
+        self.update(active=False)
+
+    def delete_real(self):
+        super(CustomQuerySet, self).delete()
+
+
+3. Suppose we have model:
+class Person(models.Model):
+    name = models.CharField('Item', max_length=100)
+    birthday = models.DateField(...)
+
+We want to define a model field “birthday” such that django admin
+interface doesn't allow this field to be empty, but we can create persons
+with empty birthday using orm ( Person.objects.create(name='Name 1')
+should work).
+
+Answer: 1. birthday = models.DateField(null=True, blank=True)

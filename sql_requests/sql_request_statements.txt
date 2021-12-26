@@ -1,0 +1,22 @@
+Есть таблица phones с полями: phone - varchar
+users - int[]
+Есть вторая таблица items
+id serial
+user_id int
+status smallint (3 - не продан, 7 - продан, 5 - резерв)
+
+1. Надо написать запрос который на заданные телефоны возвращает
+количество проданных вещей.
+
+SELECT count(*) FROM items
+INNER JOIN phones
+ON items.user_id = ANY(phones.users)
+WHERE items.status = 7 AND phones.phone = 1::varchar;
+
+2. Который возвращает в одном запросе количество и проданных, и
+непроданных.
+
+SELECT count(*) FROM items
+INNER JOIN phones
+ON items.user_id = ANY(phones.users)
+WHERE items.status IN (7,3) AND phones.phone = 1::varchar;
