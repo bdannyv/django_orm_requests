@@ -1,0 +1,12 @@
+master| -init_commit  ------------------------------------
+                  \                                         /
+                   \                                       /
+feature_1|          - commit1 - problem_commit - commit2 -
+
+1. git log
+2. get problem commit and commit2 hashes
+3. git reset --hard commit
+4. git checkout -b new_b
+5. git cherry-pick commit2_hash
+6. git checkout master
+7. git merge new_b
