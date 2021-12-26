@@ -1,12 +1,13 @@
 master| -init_commit  ------------------------------------
                   \                                         /
                    \                                       /
-feature_1|          - commit1 - problem_commit - commit2 -
+feature_1|          - commit1  - commit2 -
 
-1. git log
-2. get problem commit and commit2 hashes
-3. git reset --hard commit
-4. git checkout -b new_b
-5. git cherry-pick commit2_hash
-6. git checkout master
-7. git merge new_b
+1. git checkout -b feature_1
+2. git add .
+3. git commit -m 'commit1'
+4. git add .
+5. git commit -m 'commit2'
+6. git reset --hard commit1_hash
+7. git checkout master
+8. git merge new_b
